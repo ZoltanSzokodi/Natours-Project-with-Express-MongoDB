@@ -156,27 +156,36 @@ app.patch('/api/v1/tours/:id', updateTour);
 app.delete('/api/v1/tours/:id', deleteTour);
 */
 
-// README TOURS
+// README CREATING MULTIPLE ROUTERS
+const tourRouter = express.Router();
+const userRouter = express.Router();
 
-app.route('/api/v1/tours')
+// README TOUR HANDLERS
+
+tourRouter.route('/')
 	.get(getAllTours)
 	.post(createTour);
 
-app.route('/api/v1/tours/:id')
+tourRouter.route('/:id')
 	.get(getTour)
 	.patch(updateTour)
 	.delete(deleteTour);
 
-// README USERS
+// README USER HANDLERS
 
-app.route('/api/v1/users')
+userRouter.route('/')
 	.get(getAllUsers)
 	.post(createUser);
 
-app.route('/api/v1/users/:id')
+userRouter.route('/:id')
 	.get(getUser)
 	.patch(updateUser)
 	.delete(deleteUser);
+
+// README MOUNTING THE ROUTERS
+app.use('/api/v1/tours', tourRouter);
+app.use('/api/v1/users', userRouter);
+
 
 
 const port = 3000;
