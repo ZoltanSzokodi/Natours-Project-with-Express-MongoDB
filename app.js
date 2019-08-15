@@ -2,7 +2,7 @@ const fs = require('fs');
 const express = require('express');
 const app = express();
 
-// Middleware ~ is a function that can modify the incoming request data 
+// Middleware ~ is a function that can modify the incoming request data README
 app.use(express.json());
 
 /*
@@ -17,8 +17,10 @@ app.post('/', (req, res) => {
 })
 */
 
+
 const tours = JSON.parse(fs.readFileSync(`${__dirname}/dev-data/data/tours-simple.json`));
 
+// Get all tours README
 app.get('/api/v1/tours', (req, res) => {
 	res.status(200).json({
 		status: 'success',
@@ -29,6 +31,32 @@ app.get('/api/v1/tours', (req, res) => {
 	});
 });
 
+// Get single tour README
+app.get('/api/v1/tours/:id', (req, res) => {
+	console.log(req.params);
+
+	// Covert string into number
+	const id = req.params.id * 1;
+
+	if(id > tours.length) {
+		return res.status(404).json({
+			status: 'fail',
+			message: 'invalid ID'
+		})
+	}
+
+	const tour = tours.find(el => el.id === id);
+
+	res.status(200).json({
+		status: 'success',
+		data: {
+			tour
+		}
+	});
+});
+
+
+// Post to tours README
 app.post('/api/v1/tours', (req, res) => {
 	// console.log(req.body);
 
