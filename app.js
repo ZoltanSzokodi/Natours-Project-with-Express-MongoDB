@@ -37,15 +37,15 @@ app.get('/api/v1/tours/:id', (req, res) => {
 
 	// Covert string into number
 	const id = req.params.id * 1;
+	const tour = tours.find(el => el.id === id);
 
-	if(id > tours.length) {
+	// if (id > tour.length)
+	if(!tour) {
 		return res.status(404).json({
 			status: 'fail',
 			message: 'invalid ID'
 		})
 	}
-
-	const tour = tours.find(el => el.id === id);
 
 	res.status(200).json({
 		status: 'success',
@@ -74,6 +74,23 @@ app.post('/api/v1/tours', (req, res) => {
 			});
 	    }
     );
+});
+
+// Patching README
+app.patch('/api/v1/tours/:id', (req, res) => {
+	 if (req.params.id * 1 > tours.length) {
+		return res.status(404).json({
+			status: 'fail',
+			message: 'invalid ID'
+		});
+	}
+
+	res.status(200).json({
+		status: 'success',
+		data: {
+			tour: '<Updated tour here...>'
+		}
+	});
 });
 
 
