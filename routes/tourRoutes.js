@@ -1,7 +1,8 @@
 const express = require('express');
 // const tourController = require('./../controllers/tourController');
 
-const { checkID,
+const { checkBody,
+		checkID,
 		getAllTours, 
 		createTour, 
 		getTour, 
@@ -12,11 +13,13 @@ const { checkID,
 
 const router = express.Router();
 
+// Adding checkID middleware
 router.param('id', checkID);
+
 
 router.route('/')
 	.get(getAllTours)
-	.post(createTour);
+	.post(checkBody, createTour);
 
 router.route('/:id')
 	.get(getTour)
