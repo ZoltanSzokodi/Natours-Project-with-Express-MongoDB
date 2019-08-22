@@ -1,10 +1,13 @@
 const express = require('express');
 
-const { getAllUsers,
-		createUser,
-		getUser,
-		updateUser,
-		deleteUser } = require('./../controllers/userController');
+// Destructuring the import obj
+const { 
+	getAllUsers,
+	createUser,
+	getUser,
+	updateUser,
+	deleteUser 
+} = require('./../controllers/userController');
 
 // README USER HANDLERS
 
