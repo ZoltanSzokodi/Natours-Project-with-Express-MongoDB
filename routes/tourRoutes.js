@@ -10,12 +10,15 @@ const {
 	createTour, 
 	getTour, 
 	updateTour, 
-	deleteTour 
+	deleteTour,
+	getTourStats 
 } = require('./../controllers/tourController');
 
 // README TOUR HANDLERS
 
 const router = express.Router();
+
+router.route('/tour-stats').get(getTourStats);
 
 router.route('/top-5-cheap')
 	.get(aliasTopTours, getAllTours)
