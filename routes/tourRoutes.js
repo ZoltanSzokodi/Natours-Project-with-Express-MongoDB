@@ -11,7 +11,8 @@ const {
 	getTour, 
 	updateTour, 
 	deleteTour,
-	getTourStats 
+	getTourStats,
+	getMonthlyPlan 
 } = require('./../controllers/tourController');
 
 // README TOUR HANDLERS
@@ -19,6 +20,7 @@ const {
 const router = express.Router();
 
 router.route('/tour-stats').get(getTourStats);
+router.route('/monthly-plan/:year').get(getMonthlyPlan);
 
 router.route('/top-5-cheap')
 	.get(aliasTopTours, getAllTours)
