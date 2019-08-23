@@ -52,6 +52,14 @@ const toursSchema = new mongoose.Schema({
 		select: false
 	},
 	startDates : [Date]
+}, {
+	toJSON: { virtuals: true },
+	toObject: { virtuals: true }
+});
+
+// Virtual property - this is actually not part of the DB
+toursSchema.virtual('durationWeeks').get(function() {
+	return this.duration / 7;
 });
 
 const Tour = mongoose.model('Tour', toursSchema);
