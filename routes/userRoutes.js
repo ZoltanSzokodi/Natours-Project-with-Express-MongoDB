@@ -1,17 +1,24 @@
 const express = require('express');
 
+
 // Destructuring the import obj
-const { 
+const {
 	getAllUsers,
 	createUser,
 	getUser,
 	updateUser,
-	deleteUser 
+	deleteUser
 } = require('./../controllers/userController');
+
+const {
+	signup
+} = require('./../controllers/authController');
 
 // README USER HANDLERS
 
 const router = express.Router();
+
+router.post('/signup', signup);
 
 router.route('/')
 	.get(getAllUsers)
