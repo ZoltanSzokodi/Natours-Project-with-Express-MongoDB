@@ -11,7 +11,8 @@ const {
 } = require('./../controllers/userController');
 
 const {
-	signup
+	signup,
+	login
 } = require('./../controllers/authController');
 
 // README USER HANDLERS
@@ -19,6 +20,7 @@ const {
 const router = express.Router();
 
 router.post('/signup', signup);
+router.post('/login', login);
 
 router.route('/')
 	.get(getAllUsers)
