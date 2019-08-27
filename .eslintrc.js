@@ -20,6 +20,9 @@ module.exports = {
         }],
         "no-unused-vars": ["error", {
             "argsIgnorePattern": "req|res|next|val"
+        }],
+        "object-property-newline": ["error", {
+            "allowAllPropertiesOnSameLine": true
         }]
     }
 };
