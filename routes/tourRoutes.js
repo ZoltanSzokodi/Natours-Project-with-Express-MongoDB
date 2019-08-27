@@ -4,16 +4,20 @@ const express = require('express');
 // const tourController = require('./../controllers/tourController');
 
 // Destructuring the import obj
-const {	
+const {
 	aliasTopTours,
-	getAllTours, 
-	createTour, 
-	getTour, 
-	updateTour, 
+	getAllTours,
+	createTour,
+	getTour,
+	updateTour,
 	deleteTour,
 	getTourStats,
-	getMonthlyPlan 
+	getMonthlyPlan
 } = require('./../controllers/tourController');
+
+const {
+	protect
+} = require('./../controllers/authController');
 
 // README TOUR HANDLERS
 
@@ -26,7 +30,7 @@ router.route('/top-5-cheap')
 	.get(aliasTopTours, getAllTours)
 
 router.route('/')
-	.get(getAllTours)
+	.get(protect, getAllTours)
 	.post(createTour);
 
 router.route('/:id')
