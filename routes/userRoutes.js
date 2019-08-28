@@ -14,7 +14,9 @@ const {
 	signup,
 	login,
 	forgotPassword,
-	resetPassword
+	resetPassword,
+	updatePassword,
+	protect
 } = require('./../controllers/authController');
 
 // README USER HANDLERS
@@ -26,6 +28,8 @@ router.post('/login', login);
 
 router.post('/forgotPassword', forgotPassword);
 router.patch('/resetPassword/:token', resetPassword);
+
+router.patch('/updateMyPassword', protect, updatePassword);
 
 router.route('/')
 	.get(getAllUsers)
