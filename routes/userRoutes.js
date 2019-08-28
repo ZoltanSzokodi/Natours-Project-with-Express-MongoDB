@@ -12,7 +12,9 @@ const {
 
 const {
 	signup,
-	login
+	login,
+	forgotPassword,
+	resetPassword
 } = require('./../controllers/authController');
 
 // README USER HANDLERS
@@ -21,6 +23,9 @@ const router = express.Router();
 
 router.post('/signup', signup);
 router.post('/login', login);
+
+router.post('/forgotPassword', forgotPassword);
+router.patch('/resetPassword/:token', resetPassword);
 
 router.route('/')
 	.get(getAllUsers)
