@@ -27,7 +27,7 @@ const toursSchema = new mongoose.Schema({
 		enum: {
 			values: ['easy', 'medium', 'difficult'],
 			message: 'Difficulty is either easy, medium or difficult'
-		} 
+		}
 	},
 	ratingsAverage: {
 		type: Number,
@@ -46,10 +46,10 @@ const toursSchema = new mongoose.Schema({
 	priceDiscount: {
 		type: Number,
 		validate: {
-			validator: function(val) {
-			return val < this.price;
-		},
-		message: 'Discount price ({VALUE}) should be below the price' 
+			validator: function (val) {
+				return val < this.price;
+			},
+			message: 'Discount price ({VALUE}) should be below the price'
 		}
 	},
 	summary: {
@@ -71,43 +71,82 @@ const toursSchema = new mongoose.Schema({
 		default: Date.now(),
 		select: false
 	},
-	startDates : [Date],
+	startDates: [Date],
 	secretTour: {
 		type: Boolean,
 		default: false
-	}
+	},
+	startLocation: {
+		// GeoJSON
+		type: {
+			type: String,
+			default: 'Point',
+			enum: ['Point']
+		},
+		coordinates: [Number],
+		address: String,
+		description: String
+	},
+	locations: [{
+		type: {
+			type: String,
+			default: 'Point',
+			enum: ['Point']
+		},
+		coordinates: [Number],
+		address: String,
+		description: String,
+		day: Number
+	}]
+
 }, {
-	toJSON: { virtuals: true },
-	toObject: { virtuals: true }
+	toJSON: {
+		virtuals: true
+	},
+	toObject: {
+		virtuals: true
+	}
 });
 
 // Virtual property - this is actually not part of the DB
-toursSchema.virtual('durationWeeks').get(function() {
+toursSchema.virtual('durationWeeks').get(function () {
 	return this.duration / 7;
 });
 
 // README DOCUMENT MIDDLEWARE - runs before .save() and .create()
-toursSchema.pre('save', function(next) {
-	this.slug = slugify(this.name, { lower: true});
+toursSchema.pre('save', function (next) {
+	this.slug = slugify(this.name, {
+		lower: true
+	});
 	next();
 });
 
 // README QUERY MIDDLEWARE
-toursSchema.pre(/^find/, function(next) {
-	this.find({ secretTour: { $ne: true }}); 
+toursSchema.pre(/^find/, function (next) {
+	this.find({
+		secretTour: {
+			$ne: true
+		}
+	});
 
 	this.start = Date.now();
 	next();
 });
 
-toursSchema.post(/^find/, function(docs, next) {
+toursSchema.post(/^find/, function (docs, next) {
 	console.log(`Query took ${Date.now() - this.start} milliseconds!`);
 	next();
 });
 
 // README AGGREGATION MIDDLEWARE
-toursSchema.pre('aggregate', function(next) {
-	this.pipeline().unshift({ $match: { secretTour: { $ne: true } } });
+toursSchema.pre('aggregate', function (next) {
+	this.pipeline().unshift({
+		$match: {
+			secretTour: {
+				$ne: true
+			}
+		}
+	});
 	console.log(this.pipeline())
 	next();
 });
