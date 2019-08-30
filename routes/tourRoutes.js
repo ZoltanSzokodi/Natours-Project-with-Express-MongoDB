@@ -1,4 +1,5 @@
 const express = require('express');
+const reviewRouter = require('./../routes/reviewRoutes');
 
 // Assigning the import object to a var
 // const tourController = require('./../controllers/tourController');
@@ -20,19 +21,17 @@ const {
 	restrictTo
 } = require('./../controllers/authController');
 
-const {
-	createReview
-} = require('./../controllers/reviewController');
-
 // README TOUR HANDLERS
 
 const router = express.Router();
 
-router.route('/tour-stats').get(getTourStats);
-router.route('/monthly-plan/:year').get(getMonthlyPlan);
+router.use('/:tourId/reviews', reviewRouter);
 
 router.route('/top-5-cheap')
 	.get(aliasTopTours, getAllTours)
+
+router.route('/tour-stats').get(getTourStats);
+router.route('/monthly-plan/:year').get(getMonthlyPlan);
 
 router.route('/')
 	.get(
@@ -47,11 +46,5 @@ router.route('/:id')
 		protect,
 		restrictTo('admin', 'lead-guide'),
 		deleteTour);
-
-router.route('/:tourId/reviews')
-	.post(
-		protect,
-		restrictTo('user'),
-		createReview);
 
 module.exports = router;
