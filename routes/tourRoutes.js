@@ -20,6 +20,10 @@ const {
 	restrictTo
 } = require('./../controllers/authController');
 
+const {
+	createReview
+} = require('./../controllers/reviewController');
+
 // README TOUR HANDLERS
 
 const router = express.Router();
@@ -43,5 +47,11 @@ router.route('/:id')
 		protect,
 		restrictTo('admin', 'lead-guide'),
 		deleteTour);
+
+router.route('/:tourId/reviews')
+	.post(
+		protect,
+		restrictTo('user'),
+		createReview);
 
 module.exports = router;
