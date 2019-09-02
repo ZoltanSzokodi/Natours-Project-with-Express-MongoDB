@@ -11,11 +11,16 @@ const filterObj = (obj, ...allowedFields) => {
 	return newObj;
 };
 
+exports.getMe = (req, res, next) => {
+	req.params.id = req.user.id;
+	next();
+};
+
 exports.updateMe = catchAsync(async (req, res, next) => {
 	// 1) Create error if user posts pw data
 	if (req.body.password || req.body.passwordConfirm) {
 		return next(new AppError('This rote is not for password update. Please use /updateMyPassword', 400));
-	}
+	};
 
 	// 2) Filtered out unwanted field names 
 	const filteredBody = filterObj(req.body, 'name', 'email');
