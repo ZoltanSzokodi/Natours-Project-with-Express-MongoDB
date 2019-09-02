@@ -112,6 +112,18 @@ const toursSchema = new mongoose.Schema({
 	}
 });
 
+// toursSchema.index({
+// 	price: 1
+// });
+toursSchema.index({
+	price: 1,
+	ratingsAverage: -1
+});
+toursSchema.index({
+	slug: 1
+});
+
+
 // Virtual property - this is actually not part of the DB
 toursSchema.virtual('durationWeeks').get(function () {
 	return this.duration / 7;
