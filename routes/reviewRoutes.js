@@ -4,6 +4,7 @@ const {
   getAllReviews,
   createReview,
   updateReview,
+  getReview,
   deleteReview,
   setTourUserIds
 } = require('./../controllers/reviewController');
@@ -29,6 +30,7 @@ router.route('/')
   );
 
 router.route('/:id')
+  .get(getReview)
   .patch(updateReview)
   .delete(deleteReview);
 
