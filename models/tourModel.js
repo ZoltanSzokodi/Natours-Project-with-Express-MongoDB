@@ -123,7 +123,9 @@ toursSchema.index({
 toursSchema.index({
 	slug: 1
 });
-
+toursSchema.index({
+	startLocation: '2dsphere'
+});
 
 // Virtual property - this is actually not part of the DB
 toursSchema.virtual('durationWeeks').get(function () {
