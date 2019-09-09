@@ -6,11 +6,11 @@ const bcrypt = require('bcryptjs');
 const userSchema = new mongoose.Schema({
   name: {
     type: String,
-    required: [true, 'Please tell us your name']
+    required: [true, 'Please tell us your name!']
   },
   email: {
     type: String,
-    require: [true, 'Please provide your email'],
+    required: [true, 'Please provide your email'],
     unique: true,
     lowercase: true,
     validate: [validator.isEmail, 'Please provide a valid email']
@@ -23,7 +23,7 @@ const userSchema = new mongoose.Schema({
   },
   password: {
     type: String,
-    required: [true, 'Provide a password'],
+    required: [true, 'Please provide a password'],
     minlength: 8,
     select: false
   },
@@ -31,11 +31,11 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: [true, 'Please confirm your password'],
     validate: {
-      // This only works on CREATE and SAVE!
-      validator: function (el) {
+      // This only works on CREATE and SAVE!!!
+      validator: function(el) {
         return el === this.password;
       },
-      message: 'Passwords are not the same'
+      message: 'Passwords are not the same!'
     }
   },
   passwordChangedAt: Date,
@@ -48,52 +48,53 @@ const userSchema = new mongoose.Schema({
   }
 });
 
-userSchema.pre('save', async function (next) {
-  // Only run this function if password was modified
+userSchema.pre('save', async function(next) {
+  // Only run this function if password was actually modified
   if (!this.isModified('password')) return next();
 
-  // Hash the pw with cost fo 12
+  // Hash the password with cost of 12
   this.password = await bcrypt.hash(this.password, 12);
 
-  // Delete pwConfirm field
+  // Delete passwordConfirm field
   this.passwordConfirm = undefined;
   next();
 });
 
-userSchema.pre('save', function (next) {
+userSchema.pre('save', function(next) {
   if (!this.isModified('password') || this.isNew) return next();
 
   this.passwordChangedAt = Date.now() - 1000;
   next();
 });
 
-userSchema.pre(/^find/, function (next) {
-  // This points to the current query
-  this.find({
-    active: {
-      $ne: false
-    }
-  });
+userSchema.pre(/^find/, function(next) {
+  // this points to the current query
+  this.find({ active: { $ne: false } });
   next();
 });
 
-userSchema.methods.correctPassword = async function (candidatePassword, userPassword) {
+userSchema.methods.correctPassword = async function(
+  candidatePassword,
+  userPassword
+) {
   return await bcrypt.compare(candidatePassword, userPassword);
 };
 
-userSchema.methods.changedPasswordAfter = function (JWTTimestamp) {
+userSchema.methods.changedPasswordAfter = function(JWTTimestamp) {
   if (this.passwordChangedAt) {
-    const changedTimestamp = parseInt(this.passwordChangedAt.getTime() / 1000, 10);
+    const changedTimestamp = parseInt(
+      this.passwordChangedAt.getTime() / 1000,
+      10
+    );
 
-    console.log(changedTimestamp, JWTTimestamp);
     return JWTTimestamp < changedTimestamp;
   }
 
-  // False means not changed
+  // False means NOT changed
   return false;
 };
 
-userSchema.methods.createPasswordResetToken = function () {
+userSchema.methods.createPasswordResetToken = function() {
   const resetToken = crypto.randomBytes(32).toString('hex');
 
   this.passwordResetToken = crypto
@@ -101,12 +102,7 @@ userSchema.methods.createPasswordResetToken = function () {
     .update(resetToken)
     .digest('hex');
 
-  console.log({
-      resetToken
-    },
-    this.passwordResetToken
-  );
-
+  console.log({ resetToken }, this.passwordResetToken);
 
   this.passwordResetExpires = Date.now() + 10 * 60 * 1000;
 
