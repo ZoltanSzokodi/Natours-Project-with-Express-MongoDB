@@ -1,17 +1,6 @@
 {
   "name": "natours",
   "version": "1.0.0",
-<<<<<<< HEAD
-  "description": "learning node, express and mongodb",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "Zoltan",
-  "license": "ISC",
-  "dependencies": {
-    "express": "^4.17.1"
-=======
   "description": "Learning node, express and mongoDB",
   "main": "app.js",
   "scripts": {
@@ -26,7 +15,7 @@
   "license": "ISC",
   "dependencies": {
     "@babel/polyfill": "^7.4.4",
-    "axios": "^0.18.0",
+    "axios": "^0.18.1",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
     "compression": "^1.7.4",
@@ -65,6 +54,5 @@
   },
   "engines": {
     "node": "^10"
->>>>>>> dev
   }
 }
