@@ -830,6 +830,10 @@ body {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
+<<<<<<< HEAD
+=======
+  justify-content: flex-end;
+>>>>>>> dev
 }
 .footer__nav li {
   margin-left: 1.5rem;
